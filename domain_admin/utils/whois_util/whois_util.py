@@ -20,6 +20,7 @@ from dateutil import parser
 
 from domain_admin.log import logger
 from domain_admin.utils import json_util, domain_util
+from domain_admin.utils.whois_util import bkns_whois
 from domain_admin.utils.whois_util.config import (
     CUSTOM_WHOIS_CONFIGS,
     DEFAULT_WHOIS_CONFIG,
@@ -228,7 +229,7 @@ def get_domain_info(domain):
     domain = resolve_domain(domain)
     logger.debug("resolve_domain: %s", domain)
 
-    res = get_domain_whois(domain)
+    res = bkns_whois.get_domain_info_with_fallback(domain, get_domain_whois)
 
     logger.debug(json_util.json_encode(res, indent=2, ensure_ascii=False))
 
